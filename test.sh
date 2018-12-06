@@ -1,7 +1,7 @@
 #!/usr/bin/env import
 set -eu
 import "assert@2.1.3"
-source "./retry.sh"
+. "./retry.sh"
 
 # This will pass on the first attempt
 assert_exit 0 retry echo foo
@@ -14,14 +14,21 @@ do_work_count=0
 do_work() {
   if [ "$do_work_count" -lt 2 ]; then
     do_work_count=$((do_work_count+1))
-    printf "%s" failing
+    printf failing
     return "$do_work_count"
   fi
-  printf "%s" ok
+  printf ok
 }
 
 assert_exit 0 retry do_work
 
-# Ensure expected output
+# Test expected output
 do_work_count=0
 assert_equal "$(retry do_work)" "failingfailingok"
+
+# Test exit code works properly
+do_work_count=0
+retries=1 assert_exit 1 retry do_work
+
+do_work_count=0
+retries=2 assert_exit 2 retry do_work
