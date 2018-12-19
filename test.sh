@@ -1,7 +1,7 @@
 #!/usr/bin/env import
 set -eu
-import assert@2.1.3
-source ./retry.sh
+import "assert@2.1.3"
+source "./retry.sh"
 
 # This will pass on the first attempt
 assert_exit 0 retry echo foo
@@ -9,7 +9,7 @@ assert_exit 0 retry echo foo
 # This will always fail
 assert_exit 7 retry sh -c "echo foo && exit 7"
 
-# This functions fails the first two times it is invoked
+# This function fails the first two times it is invoked
 do_work_count=0
 do_work() {
   if [ "$do_work_count" -lt 2 ]; then
