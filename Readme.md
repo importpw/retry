@@ -6,7 +6,7 @@ Executes the specified command and retries upon failure.
 
 ```bash
 #!/usr/bin/env import
-import retry@0.0.1
+import "retry@0.0.2"
 
 retry curl https://flaky-server.com
 ```
